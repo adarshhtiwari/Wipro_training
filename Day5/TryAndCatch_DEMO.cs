@@ -1,0 +1,35 @@
+﻿using System;using System.Collections.Generic;using System.Linq;using System.Text.RegularExpressions;namespace HelloWorld{
+
+    class InvalidSleepException : Exception
+    {
+        public InvalidSleepException(string message) : base(message)
+        {
+
+        }
+    }
+
+    public class Program
+    {
+        public static void CheckSleep(int hour)
+        {
+            if (hour < 6)
+            {
+                throw new InvalidSleepException("sleep is good loid id good");
+            }
+        }
+        public static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+
+            try
+            {
+                CheckSleep(a);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Exception" + e);
+            }
+        }
+    }}
+
