@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Student Search";
+}
+
+<h2>AJAX Student Search System</h2>
+
+<br />
+
+<label>Enter Student ID:</label>
+
+<input type="number" id="studentId" />
+
+<button id="searchBtn">Search</button>
+
+<br />
+<br />
+
+<div id="result"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+    $("#searchBtn").click(function () {
+
+    var studentId = $("#studentId").val();
+
+    $.ajax({
+
+    url: '/Student/SearchStudent',
+
+    type: 'GET',
+
+    data: { id: studentId },
+
+    success: function (response) {
+
+    if (response.success) {
+
+    var student = response.data;
+
+    $("#result").html(
+
+    "<h3>Student Details</h3>" +
+    "<p><b>ID:</b> " + student.studentId + "</p>" +
+    "<p><b>Name:</b> " + student.name + "</p>" +
+    "<p><b>Course:</b> " + student.course + "</p>" +
+    "<p><b>Age:</b> " + student.age + "</p>"
+    );
+    }
+    else {
+
+    $("#result").html(
+
+    "<span style='color:red'>" +
+    response.message +
+    "</span>"
+    );
+    }
+    },
+
+    error: function () {
+
+    $("#result").html(
+
+    "<span style='color:red'>" +
+    "Error Occurred" +
+    "</span>"
+    );
+    }
+    });
+    });
+    });
+
+</script>
