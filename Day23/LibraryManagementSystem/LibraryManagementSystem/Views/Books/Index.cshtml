@@ -1,0 +1,163 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h2>Library Books</h2>
+
+<div class="row mb-3">
+
+    <div class="col-md-3">
+        <input type="text"
+               id="title"
+               class="form-control"
+               placeholder="Book Title" />
+    </div>
+
+    <div class="col-md-3">
+        <select id="authorId"
+                class="form-control">
+
+            <option value="">
+                Select Author
+            </option>
+
+            @foreach (var author in ViewBag.Authors)
+            {
+                <option value="@author.AuthorId">
+                    @author.Name
+                </option>
+            }
+
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select id="genreId"
+                class="form-control">
+
+            <option value="">
+                Select Genre
+            </option>
+
+            @foreach (var genre in ViewBag.Genres)
+            {
+                <option value="@genre.GenreId">
+                    @genre.GenreName
+                </option>
+            }
+
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <button id="btnAdd"
+                type="button"
+                class="btn btn-primary">
+            Add Book
+        </button>
+    </div>
+
+</div>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Book</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.Title</td>
+
+                <td>@item.Author?.Name</td>
+
+                <td>@item.Genre?.GenreName</td>
+
+                <td>
+
+                    <button class="btn btn-danger btnDelete"
+                            data-id="@item.BookId">
+
+                        Delete
+
+                    </button>
+
+                </td>
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+
+    $("#btnAdd").click(function () {
+
+    $.ajax({
+
+    url: '/Books/Add',
+
+    type: 'POST',
+
+    data: {
+
+    Title: $("#title").val(),
+
+    AuthorId: $("#authorId").val(),
+
+    GenreId: $("#genreId").val()
+    },
+
+    success: function () {
+
+    alert("Book Added");
+
+    location.reload();
+    },
+
+    error: function (xhr) {
+
+    alert(xhr.responseText);
+    }
+    });
+    });
+
+
+    $(".btnDelete").click(function () {
+
+    var id = $(this).data("id");
+
+    $.ajax({
+
+    url: '/Books/Delete',
+
+    type: 'POST',
+
+    data: { id: id },
+
+    success: function () {
+
+    alert("Book Deleted");
+
+    location.reload();
+    }
+    });
+
+    });
+
+</script>

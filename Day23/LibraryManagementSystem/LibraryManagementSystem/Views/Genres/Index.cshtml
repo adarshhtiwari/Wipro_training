@@ -1,0 +1,67 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.Genre>
+
+<h2>Genres</h2>
+
+<form asp-action="Add"
+      method="post">
+
+    <input type="text"
+           name="GenreName"
+           class="form-control"
+           placeholder="Genre Name" />
+
+    <br />
+
+    <button class="btn btn-success">
+
+        Add Genre
+
+    </button>
+
+</form>
+
+<br />
+
+<table class="table table-bordered">
+
+    <tr>
+
+        <th>Id</th>
+
+        <th>Name</th>
+
+        <th>Action</th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>@item.GenreId</td>
+
+            <td>@item.GenreName</td>
+
+            <td>
+
+                <form asp-action="Delete"
+                      method="post">
+
+                    <input type="hidden"
+                           name="id"
+                           value="@item.GenreId" />
+
+                    <button class="btn btn-danger">
+
+                        Delete
+
+                    </button>
+
+                </form>
+
+            </td>
+
+        </tr>
+    }
+
+</table>
